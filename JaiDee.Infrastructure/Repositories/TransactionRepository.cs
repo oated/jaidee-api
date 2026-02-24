@@ -21,7 +21,7 @@ public class TransactionRepository : ITransactionRepository
 
   public async Task<IReadOnlyList<Transaction>> GetByUserAndMonthAsync(Guid userId, int year, int month, CancellationToken cancellationToken = default)
   {
-    var periodStart = new DateTime(year, month, 1);
+    var periodStart = new DateTime(year, month, 1, 0, 0, 0, DateTimeKind.Utc);
     var nextPeriodStart = periodStart.AddMonths(1);
 
     return await _dbContext.Transactions

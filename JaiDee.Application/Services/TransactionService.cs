@@ -51,7 +51,7 @@ public class TransactionService : ITransactionService
       Type = command.Type,
       Amount = command.Amount,
       Note = command.Note,
-      TransactionDate = command.TransactionDate ?? DateTime.UtcNow
+      TransactionDate = DateTime.UtcNow
     };
 
     await _transactionRepository.AddAsync(transaction, cancellationToken);

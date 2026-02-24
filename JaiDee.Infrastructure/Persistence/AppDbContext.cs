@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
 
   public DbSet<User> Users => Set<User>();
   public DbSet<Transaction> Transactions => Set<Transaction>();
+  public DbSet<ConversationState> ConversationStates => Set<ConversationState>();
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
@@ -29,6 +30,12 @@ public class AppDbContext : DbContext
 
       entity.Property(t => t.Amount)
                 .HasColumnType("numeric(18,2)");
+    });
+
+    modelBuilder.Entity<ConversationState>(entity =>
+    {
+      entity.HasIndex(x => x.LineUserId).IsUnique();
+      entity.Property(x => x.PendingAmount).HasColumnType("numeric(18,2)");
     });
   }
 }

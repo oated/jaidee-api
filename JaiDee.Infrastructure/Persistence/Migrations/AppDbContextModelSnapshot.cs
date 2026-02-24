@@ -21,6 +21,43 @@ namespace JaiDee.Infrastructure.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("JaiDee.Domain.Entities.ConversationState", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpiresAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LineUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("PendingAmount")
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<string>("PendingNote")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PendingType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Step")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LineUserId")
+                        .IsUnique();
+
+                    b.ToTable("ConversationStates");
+                });
+
             modelBuilder.Entity("JaiDee.Domain.Entities.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
