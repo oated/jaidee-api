@@ -1,0 +1,41 @@
+# Build artifacts
+bin/
+obj/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userprefs
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test and coverage
+TestResults/
+*.trx
+coverage/
+coverage.*
+
+# NuGet
+*.nupkg
+packages/
+
+# EF Core local database artifacts (if used)
+*.db
+*.db-shm
+*.db-wal
+
+# Secrets / env files
+.env
+.env.*
+appsettings.Local.json
