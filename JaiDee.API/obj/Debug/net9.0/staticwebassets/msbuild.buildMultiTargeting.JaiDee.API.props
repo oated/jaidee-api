@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/JaiDee.API.props" />
-</Project>
