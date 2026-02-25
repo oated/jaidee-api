@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>jaidee-api-7a4c2d45-8287-4f15-9c03-14dd4e7fe6f1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
