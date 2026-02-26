@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: jaidee-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-jaidee_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - jaidee-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-jaidee_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jaidee-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=${POSTGRES_DB:-jaidee_db};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres};
+      LineBot__ChannelSecret: ${LINEBOT_CHANNEL_SECRET}
+      LineBot__ChannelAccessToken: ${LINEBOT_CHANNEL_ACCESS_TOKEN}
+      LineBot__ApiBaseUrl: ${LINEBOT_API_BASE_URL:-https://api.line.me/}
+      LineBot__SkipSignatureValidation: ${LINEBOT_SKIP_SIGNATURE_VALIDATION:-false}
+    ports:
+      - "${API_PORT:-5126}:8080"
+
+volumes:
+  jaidee-postgres-data:

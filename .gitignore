@@ -38,4 +38,5 @@ packages/
 # Secrets / env files
 .env
 .env.*
+!.env.example
 appsettings.Local.json

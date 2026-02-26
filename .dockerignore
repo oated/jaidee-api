@@ -1,0 +1,13 @@
+.git
+.gitignore
+.vscode
+bin
+obj
+**/bin
+**/obj
+**/*.user
+**/*.suo
+**/*.log
+README.md
+JaiDee_Project_Overview.md
+jaidee-api.http

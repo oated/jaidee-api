@@ -93,6 +93,45 @@ dotnet ef database update \
 dotnet run --project /Users/nathapotthaweepong/clap/jaidee-api/JaiDee.API/JaiDee.API.csproj
 ```
 
+## Docker Deploy
+ไฟล์ที่เกี่ยวข้อง:
+- `/Users/nathapotthaweepong/clap/jaidee-api/Dockerfile`
+- `/Users/nathapotthaweepong/clap/jaidee-api/docker-compose.yml`
+- `/Users/nathapotthaweepong/clap/jaidee-api/.env.example`
+
+1. สร้างไฟล์ env
+```bash
+cp /Users/nathapotthaweepong/clap/jaidee-api/.env.example /Users/nathapotthaweepong/clap/jaidee-api/.env
+```
+
+2. แก้ค่าใน `.env` โดยเฉพาะ:
+- `LINEBOT_CHANNEL_SECRET`
+- `LINEBOT_CHANNEL_ACCESS_TOKEN`
+- `POSTGRES_PASSWORD`
+
+3. Build และ start services
+```bash
+docker compose -f /Users/nathapotthaweepong/clap/jaidee-api/docker-compose.yml up -d --build
+```
+
+4. รัน migration เข้า DB ใน container network
+```bash
+dotnet ef database update \
+  --project /Users/nathapotthaweepong/clap/jaidee-api/JaiDee.Infrastructure/JaiDee.Infrastructure.csproj \
+  --startup-project /Users/nathapotthaweepong/clap/jaidee-api/JaiDee.API/JaiDee.API.csproj \
+  --context AppDbContext \
+  --connection "Host=localhost;Port=5432;Database=jaidee_db;Username=postgres;Password=<POSTGRES_PASSWORD_FROM_ENV>;"
+```
+
+5. ตรวจสอบ API
+- base url: `http://localhost:5126`
+- webhook: `http://localhost:5126/api/webhook/line`
+
+หยุดระบบ:
+```bash
+docker compose -f /Users/nathapotthaweepong/clap/jaidee-api/docker-compose.yml down
+```
+
 ## API Endpoints
 
 ### 1) Record transaction
